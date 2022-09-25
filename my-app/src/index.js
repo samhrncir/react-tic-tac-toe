@@ -55,6 +55,7 @@ function Square(props) {
               }],
               stepNumber: 0,
               xIsNext: true,
+              sortDecending: true,
           };
       }
 
@@ -74,6 +75,13 @@ function Square(props) {
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
         });
+    }
+
+    handleClickSort(){
+      this.setState({
+        ...this.state,
+        sortDecending: !this.state.sortDecending,
+      })
     }
 
     jumpTo(step) {
@@ -137,7 +145,12 @@ function Square(props) {
           </div>
           <div className="game-info">
             <div>{status}</div>
-            <ol>{moves}</ol>
+            <div>
+              <button onClick={() => this.handleClickSort()}>
+                Toggle sort
+              </button>
+            </div>
+            <ol>{(this.state.sortDecending) ? moves : moves.reverse()}</ol>
           </div>
         </div>
       );
