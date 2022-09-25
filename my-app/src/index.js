@@ -52,6 +52,7 @@ function Square(props) {
           this.state = {
               history: [{
                   squares: Array(9).fill(null),
+                  moveIndex: null,
               }],
               stepNumber: 0,
               xIsNext: true,
@@ -69,6 +70,7 @@ function Square(props) {
         this.setState({
             history: history.concat([{
                 squares,
+                moveIndex: i,
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
@@ -82,6 +84,26 @@ function Square(props) {
         })
     }
 
+    deriveXCordinate(i) {
+      if ([0,3,6].includes(i)) {
+        return 1;
+      } else if ([1,4,7].includes(i)) {
+        return 2;
+      } else { // 2,5,8
+        return 3;
+      }
+    }
+
+    deriveYCordinate(i) {
+      if ([0,1,2].includes(i)) {
+        return 1;
+      } else if ([3,4,5].includes(i)) {
+        return 2;
+      } else { // 6,7,8
+        return 3;
+      }
+    }
+
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
@@ -89,7 +111,8 @@ function Square(props) {
 
         const moves = history.map((step, move) => {
             const desc = move ?
-              'Go to move # ' + move :
+              'Go to move # ' + move + ' (' + this.deriveXCordinate(step.moveIndex) 
+                + ', ' + this.deriveYCordinate(step.moveIndex) + ')':
               'Go to game start';
             return (
                 <li key={move}>
