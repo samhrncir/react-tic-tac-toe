@@ -70,7 +70,7 @@ import './index.css';
           };
       }
 
-      handleClick(i) {
+    handleClick(i) {
         const history = this.state.history.slice(0, this.state.stepNumber+1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
@@ -144,6 +144,8 @@ import './index.css';
         let status;
         if (winner) {
             status = 'Winner: ' + winner;
+        } else if (this.state.stepNumber === 9 && !winner) {
+          status = 'Its a draw'
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
